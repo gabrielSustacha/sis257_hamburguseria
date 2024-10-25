@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { ClientesModule } from './clientes/clientes.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -19,6 +20,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     autoLoadEntities: true,
   }),
   UsuariosModule,
+  ClientesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -31,7 +31,7 @@ export class ProductosService {
   }
 
   async findOne(id: number) {
-    const producto = await this.productoRepository.findOne({});
+    const producto = await this.productoRepository.findOne({where: { id }});
     if (!producto) throw new NotFoundException('el producto no existe');
     return producto;
   }

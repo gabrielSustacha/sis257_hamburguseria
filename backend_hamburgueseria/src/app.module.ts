@@ -8,6 +8,7 @@ import { ClientesModule } from './clientes/clientes.module';
 import { EmpleadosModule } from './empleados/empleados.module';
 import { ProductosModule } from './productos/productos.module';
 import { PedidosModule } from './pedidos/pedidos.module';
+import { PagosModule } from './pagos/pagos.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -27,6 +28,7 @@ import { PedidosModule } from './pedidos/pedidos.module';
   EmpleadosModule,
   ProductosModule,
   PedidosModule,
+  PagosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

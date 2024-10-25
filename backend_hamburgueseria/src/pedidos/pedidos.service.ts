@@ -28,7 +28,7 @@ export class PedidosService {
   }
 
   async findOne(id: number) {
-    const pedido = await this.pedidoRepository.findOne({});
+    const pedido = await this.pedidoRepository.findOne({where: { id }});
     if (!pedido) throw new NotFoundException('el pedido no existe');
     return pedido;
   }

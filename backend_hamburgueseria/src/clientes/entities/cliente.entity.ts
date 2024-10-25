@@ -17,5 +17,5 @@ export class Cliente {
     @Column('varchar', { length: 50 })
     direccion: string;
     @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
-    deletedAt: Date;
+    fechaEliminacion: Date;
 }

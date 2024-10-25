@@ -7,11 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ClientesService {
-  usuarioRepository: any;
   constructor(
     @InjectRepository(Cliente)
     private clientesRepository: Repository<Cliente>,
-  ) { }
+  ) {}
+
   async create(createClienteDto: CreateClienteDto) {
     const existe = await this.clientesRepository.findOneBy({
       nombre: createClienteDto.nombre.trim(),
@@ -27,27 +27,30 @@ export class ClientesService {
     cliente.email = createClienteDto.email.trim();
     cliente.celular = createClienteDto.celular.trim();
     cliente.direccion = createClienteDto.direccion.trim();
+    
     return this.clientesRepository.save(cliente);
   }
 
-  async findAll(): Promise<Cliente[]>{
+  async findAll(): Promise<Cliente[]> {
     return this.clientesRepository.find();
   }
 
   async findOne(id: number) {
-    const cliente = await this.usuarioRepository.findOne({});
-    if (!cliente) throw new NotFoundException('el cliente no existe');
+    const cliente = await this.clientesRepository.findOne({ where: { id } });
+    if (!cliente) throw new NotFoundException('El cliente no existe');
     return cliente;
   }
 
   async update(id: number, updateClienteDto: UpdateClienteDto) {
     const cliente = await this.findOne(id);
     const clienteUpdate = Object.assign(cliente, updateClienteDto);
+    
     return this.clientesRepository.save(clienteUpdate);
   }
 
   async remove(id: number) {
     const cliente = await this.findOne(id);
+    
     return this.clientesRepository.softRemove(cliente);
   }
 }

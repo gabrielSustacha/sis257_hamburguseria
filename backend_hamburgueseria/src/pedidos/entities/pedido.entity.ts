@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('pedidos')
 export class Pedido {
@@ -13,4 +13,6 @@ export class Pedido {
 
     @CreateDateColumn({ name: 'fecha_pedido' })
     fechaPedido: Date;
+    @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
+    fechaEliminacion: Date;
 }

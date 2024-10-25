@@ -7,19 +7,16 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class EmpleadosService {
-  clienteRepository: any;
   constructor(
     @InjectRepository(Empleado)
     private empleadosRepository: Repository<Empleado>,
   ) {}
-  async create(createEmpleadoDto: CreateEmpleadoDto): Promise<Empleado> {
-    const existe = await this.empleadosRepository.findOne({
-      where: {
-        nombre: createEmpleadoDto.nombre.trim(),
-        cargo: createEmpleadoDto.cargo.trim(),
-        celular: createEmpleadoDto.celular.trim(),
 
-      },
+  async create(createEmpleadoDto: CreateEmpleadoDto): Promise<Empleado> {
+    const existe = await this.empleadosRepository.findOneBy({
+      nombre: createEmpleadoDto.nombre.trim(),
+      cargo: createEmpleadoDto.cargo.trim(),
+      celular: createEmpleadoDto.celular.trim(),
     });
 
     if (existe) {
@@ -31,29 +28,29 @@ export class EmpleadosService {
     empleado.cargo = createEmpleadoDto.cargo.trim();
     empleado.celular = createEmpleadoDto.celular.trim();
     empleado.fechaContratacion = createEmpleadoDto.fechaContratacion;
+    
     return this.empleadosRepository.save(empleado);
   }
-
- 
   async findAll(): Promise<Empleado[]> {
     return this.empleadosRepository.find();
   }
 
   async findOne(id: number): Promise<Empleado> {
-    const usuario = await this.empleadosRepository.findOne({});
-    if (!usuario) throw new NotFoundException('el usuario no existe');
+    const usuario = await this.empleadosRepository.findOne({ where: { id } });
+    if (!usuario) throw new NotFoundException('El usuario no existe');
     return usuario;
   }
 
-
   async update(id: number, updateEmpleadoDto: UpdateEmpleadoDto): Promise<Empleado> {
-    const cliente = await this.findOne(id);
-    const clienteUpdate = Object.assign(cliente, updateEmpleadoDto);
-    return this.clienteRepository.save(clienteUpdate);
+    const empleado = await this.findOne(id);
+    const empleadoUpdate = Object.assign(empleado, updateEmpleadoDto);
+    
+    return this.empleadosRepository.save(empleadoUpdate);
   }
 
   async remove(id: number) {
-    const cliente = await this.findOne(id);
-    return this.clienteRepository.softRemove(cliente);
+    const empleado = await this.findOne(id);
+    
+    return this.empleadosRepository.softRemove(empleado);
   }
 }

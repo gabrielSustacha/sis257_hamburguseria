@@ -33,7 +33,7 @@ export class UsuariosService {
   }
 
   async findOne(id: number) {
-    const usuario = await this.usuarioRepository.findOne({});
+    const usuario = await this.usuarioRepository.findOne({where: { id }});
     if (!usuario) throw new NotFoundException('el usuario no existe');
     return usuario;
   }

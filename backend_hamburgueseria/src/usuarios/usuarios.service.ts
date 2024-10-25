@@ -38,6 +38,7 @@ export class UsuariosService {
     return usuario;
   }
 
+
   async update(
     id: number,
     updateUsuarioDto: UpdateUsuarioDto,

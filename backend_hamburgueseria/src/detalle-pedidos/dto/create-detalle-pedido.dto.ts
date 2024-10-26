@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, Min } from "class-validator";
+import { IsDefined, IsNotEmpty, IsNumber, Min } from "class-validator";
 
 export class CreateDetallePedidoDto {
     @ApiProperty()
@@ -19,4 +19,13 @@ export class CreateDetallePedidoDto {
     @IsNumber({}, { message: 'El campo subtotal debe ser de tipo número' })
     @Min(0, { message: 'El subtotal no puede ser negativo' })
     readonly subtotal: number;
+    @ApiProperty()
+    @IsDefined({ message: 'El campo idProducto debe estar definido' })
+    @IsNumber({}, { message: 'El campo idProducto debe ser tipo numérico' })
+    readonly idProducto: number;
+    @ApiProperty()
+    @IsDefined({ message: 'El campo idProducto debe estar definido' })
+    @IsNumber({}, { message: 'El campo idProducto debe ser tipo numérico' })
+    readonly idPedido: number;
+  
 }

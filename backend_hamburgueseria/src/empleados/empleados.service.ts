@@ -4,6 +4,7 @@ import { UpdateEmpleadoDto } from './dto/update-empleado.dto';
 import { Empleado } from './entities/empleado.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Injectable()
 export class EmpleadosService {
@@ -17,6 +18,7 @@ export class EmpleadosService {
       nombre: createEmpleadoDto.nombre.trim(),
       cargo: createEmpleadoDto.cargo.trim(),
       celular: createEmpleadoDto.celular.trim(),
+      usuario: { id: createEmpleadoDto.idUsuario },
     });
 
     if (existe) {
@@ -28,15 +30,16 @@ export class EmpleadosService {
     empleado.cargo = createEmpleadoDto.cargo.trim();
     empleado.celular = createEmpleadoDto.celular.trim();
     empleado.fechaContratacion = createEmpleadoDto.fechaContratacion;
+    empleado.usuario = { id: createEmpleadoDto.idUsuario } as Usuario;
     
     return this.empleadosRepository.save(empleado);
   }
   async findAll(): Promise<Empleado[]> {
-    return this.empleadosRepository.find();
+    return this.empleadosRepository.find({ relations: ['usuario'] });
   }
 
   async findOne(id: number): Promise<Empleado> {
-    const usuario = await this.empleadosRepository.findOne({ where: { id } });
+    const usuario = await this.empleadosRepository.findOne({ where: { id }, relations: ['usuario']  });
     if (!usuario) throw new NotFoundException('El usuario no existe');
     return usuario;
   }

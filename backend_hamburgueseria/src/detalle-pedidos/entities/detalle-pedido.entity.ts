@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Pedido } from "src/pedidos/entities/pedido.entity";
+import { Producto } from "src/productos/entities/producto.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('detallePedido')
 export class DetallePedido {
@@ -22,4 +24,10 @@ export class DetallePedido {
   
     @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
     fechaElimincaion: Date;
+    @ManyToOne(() => Producto, (producto) => producto.detalleProductos)
+    @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
+    producto: Producto;
+    @ManyToOne(() => Pedido, (pedido) => pedido.detallePedidos)
+    @JoinColumn({ name: 'id_pedido', referencedColumnName: 'id' })
+    pedido: Pedido;
 }

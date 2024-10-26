@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsDefined, IsNotEmpty, IsString } from "class-validator";
+import { IsDateString, IsDefined, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateEmpleadoDto {
     @ApiProperty()
@@ -23,5 +23,8 @@ export class CreateEmpleadoDto {
       { message: 'El campo fechaContratacion debe ser de tipo fecha' },
     )
     readonly fechaContratacion: Date;
-  
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El ID de usuario es obligatorio' })
+  @IsNumber({}, { message: 'El ID de usuario debe ser un número' })
+  readonly idUsuario: number;
 }

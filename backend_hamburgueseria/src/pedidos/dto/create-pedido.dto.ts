@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import { IsDefined, IsEnum, IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
 enum EstadoPedido {
     PENDIENTE = 'pendiente',
     COMPLETADO = 'completado',
@@ -17,4 +17,12 @@ export class CreatePedidoDto {
       message: 'El estado debe ser pendiente, completado o cancelado',
     })
     readonly estado: EstadoPedido;
+    @ApiProperty()
+    @IsDefined({ message: 'El campo idCliente debe estar definido' })
+    @IsNumber({}, { message: 'El campo idCliente debe ser tipo numérico' })
+    readonly idCliente: number;
+    @ApiProperty()
+    @IsDefined({ message: 'El campo idEmpleado debe estar definido' })
+    @IsNumber({}, { message: 'El campo idEmpleado debe ser tipo numérico' })
+    readonly idEmpleado: number;
 }

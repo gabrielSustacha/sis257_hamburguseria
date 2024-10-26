@@ -1,4 +1,6 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Pedido } from "src/pedidos/entities/pedido.entity";
+import { Usuario } from "src/usuarios/entities/usuario.entity";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('empleados')
 export class Empleado {
@@ -19,4 +21,9 @@ export class Empleado {
   
     @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
     fechaEliminacion: Date;
+    @ManyToOne(() => Usuario, (usuario) => usuario.empleado)
+    @JoinColumn({ name: 'id_usuario' })
+    usuario: Usuario;
+    @OneToMany(() => Pedido, (pedido) => pedido.empleado)
+    pedidos: Pedido[];
 }

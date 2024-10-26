@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Empleado } from "src/empleados/entities/empleado.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('usuarios')
 export class Usuario {
@@ -20,4 +21,6 @@ export class Usuario {
   fechaRegistro: Date;
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
+  @OneToMany(() => Empleado, (Empleado) => Empleado.usuario)
+  empleado: Empleado[];
 }

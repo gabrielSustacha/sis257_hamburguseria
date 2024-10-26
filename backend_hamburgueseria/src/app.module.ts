@@ -10,6 +10,7 @@ import { ProductosModule } from './productos/productos.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { PagosModule } from './pagos/pagos.module';
 import { DetallePedidosModule } from './detalle-pedidos/detalle-pedidos.module';
+import { CategoriasModule } from './categorias/categorias.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -31,6 +32,7 @@ import { DetallePedidosModule } from './detalle-pedidos/detalle-pedidos.module';
   PedidosModule,
   PagosModule,
   DetallePedidosModule,
+  CategoriasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

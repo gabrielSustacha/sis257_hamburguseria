@@ -49,8 +49,7 @@ export class ClientesService {
   }
 
   async remove(id: number) {
-    const cliente = await this.findOne(id);
-    
+    const cliente = await this.findOne(id);  
     return this.clientesRepository.softRemove(cliente);
   }
 }

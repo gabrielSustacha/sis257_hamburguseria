@@ -9,6 +9,7 @@ import { EmpleadosModule } from './empleados/empleados.module';
 import { ProductosModule } from './productos/productos.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { PagosModule } from './pagos/pagos.module';
+import { DetallePedidosModule } from './detalle-pedidos/detalle-pedidos.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -29,6 +30,7 @@ import { PagosModule } from './pagos/pagos.module';
   ProductosModule,
   PedidosModule,
   PagosModule,
+  DetallePedidosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

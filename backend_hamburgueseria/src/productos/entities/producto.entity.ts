@@ -15,7 +15,8 @@ export class Producto {
 
     @Column('decimal', { precision: 10, scale: 2 })
     stock: number;
-    @Column({ type: 'float', nullable: true, default: 0 })
+
+    @Column('decimal', { precision: 10, scale: 2, nullable: true, default: 0 })
     descuento: number;
 
     @CreateDateColumn({ name: 'fecha_creacion' })

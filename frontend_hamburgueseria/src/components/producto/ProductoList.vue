@@ -34,6 +34,17 @@ onMounted(() => {
   obtenerLista()
 })
 defineExpose({ obtenerLista })
+
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+
 </script>
 
 <template>
@@ -43,21 +54,28 @@ defineExpose({ obtenerLista })
         <tr>
           <th>Nro.</th>
           <th>Categoria</th>
+          <th>Nombre</th>
           <th>Descripción</th>
-          <th>Precio</th>
+          <th>Precio Unitario</th>
           <th>Stock</th>
-          <th>Descuento</th>
+          <th>Fecha de Registro</th>
+          <th>Fecha de Modificacion</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(producto, index) in productos" :key="producto.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ producto.categoria.descripcion }}</td>
+          <td>{{ producto.categoria.nombre }}</td>
+          <td>{{ producto.nombre }}</td>
           <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.precio }}</td>
+          <td>{{ producto.precioUnitario }}</td>
           <td>{{ producto.stock }}</td>
-          <td>{{ producto.descuento }}</td>
+          <td>{{ formatDate(producto. fechaCreacion) }}</td>
+          <td>{{formatDate(producto. fechaModificacion)  }}</td>
+
+
+
           <td>
             <Button
               icon="pi pi-pencil"

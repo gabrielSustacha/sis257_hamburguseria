@@ -35,7 +35,8 @@ watch(
 async function handleSave() {
   try {
     const body = {
-      nombre: cliente.value.nombre,
+      nombres: cliente.value.nombres,
+
       email: cliente.value.email,
       celular: cliente.value.celular,
       direccion: cliente.value.direccion

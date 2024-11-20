@@ -34,6 +34,15 @@ onMounted(() => {
   obtenerLista()
 })
 defineExpose({ obtenerLista })
+
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 </script>
 
 <template>
@@ -42,20 +51,24 @@ defineExpose({ obtenerLista })
       <thead>
         <tr>
           <th>Nro.</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Celular</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
           <th>Direccion</th>
+          <th>Celular</th>
+          <th>Email</th>
+          <th>Fecha de Registro</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(cliente, index) in clientes" :key="cliente.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.email }}</td>
-          <td>{{ cliente.celular }}</td>
+          <td>{{ cliente.nombres }}</td>
+          <td>{{ cliente.apellidos }}</td>
           <td>{{ cliente.direccion }}</td>
+          <td>{{ cliente.telefono }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>{{ formatDate (cliente.fechaCreacion) }}</td>
           <td>
             <Button
               icon="pi pi-pencil"

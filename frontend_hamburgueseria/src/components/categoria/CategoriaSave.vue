@@ -36,7 +36,6 @@ async function handleSave() {
   try {
     const body = {
       nombre: categoria.value.nombre,
-      descripcion: categoria.value.descripcion
     }
     if (props.modoEdicion) {
       await http.patch(`${ENDPOINT}/${categoria.value.id}`, body)
@@ -69,16 +68,7 @@ async function handleSave() {
           autofocus
         />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="descripcion" class="font-semibold w-4">Descripción</label>
-        <InputText
-          id="descripcion"
-          v-model="categoria.descripcion"
-          class="flex-auto"
-          autocomplete="off"
-          autofocus
-        />
-      </div>
+
       <div class="flex justify-end gap-2">
         <Button
           type="button"

@@ -22,8 +22,8 @@ const props = defineProps({
   modoEdicion: Boolean // Indica si es modo edición
 })
 
-// Emitimos eventos 'guardar' y 'close' para acciones
-const emit = defineEmits(['guardar', 'close'])
+// Emitimos eventos 'guardar', 'close' y 'eliminar' para acciones
+const emit = defineEmits(['guardar', 'close', 'eliminar'])
 
 // Producto local para manejar los cambios y categorías
 const producto = ref<Producto>({ ...props.producto })
@@ -73,6 +73,8 @@ async function handleSave() {
     } else {
       // Crea un nuevo producto
       await http.post(ENDPOINT, body)
+      // Aumentar stock de la categoría correspondiente si es necesario
+      await updateStock(producto.value.categoria.id, producto.value.stock);
     }
 
     emit('guardar') // Emite el evento guardar
@@ -80,6 +82,27 @@ async function handleSave() {
     dialogVisible.value = false // Cierra el diálogo
   } catch (error: any) {
     alert(error?.response?.data?.message || 'Error al guardar el producto')
+  }
+}
+
+// Función para eliminar un producto y disminuir su stock
+async function handleDelete() {
+  try {
+    await http.delete(`${ENDPOINT}/${producto.value.id}`);
+    await updateStock(producto.value.categoria.id, -producto.value.stock); // Disminuir stock al eliminar el producto
+    emit('eliminar'); // Emitir evento de eliminación
+    dialogVisible.value = false; // Cerrar diálogo tras eliminación
+  } catch (error: any) {
+    alert(error?.response?.data?.message || 'Error al eliminar el producto');
+  }
+}
+
+// Función para actualizar el stock de la categoría
+async function updateStock(categoriaId: number, cantidad: number) {
+  try {
+    await http.patch(`categorias/${categoriaId}/stock`, { cantidad });
+  } catch (error) {
+    console.error('Error al actualizar el stock:', error);
   }
 }
 
@@ -94,12 +117,7 @@ watch(
 
 <template>
   <div class="card flex justify-center">
-    <!-- Diálogo para crear/editar el producto -->
-    <Dialog
-      v-model:visible="dialogVisible"
-      :header="props.modoEdicion ? 'Editar Producto' : 'Crear Producto'"
-      style="width: 25rem"
-    >
+    <Dialog v-model:visible="dialogVisible" :header="props.modoEdicion ? 'Editar Producto' : 'Crear Producto'" style="width: 25rem">
       <!-- Selector para la categoría -->
       <div class="flex items-center gap-4 mb-4">
         <label for="categoria" class="font-semibold w-4">Categoría</label>
@@ -162,14 +180,9 @@ watch(
 
       <!-- Botones de acción -->
       <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          icon="pi pi-times"
-          severity="secondary"
-          @click="dialogVisible = false"
-        ></Button>
+        <Button type="button" label="Cancelar" icon="pi pi-times" severity="secondary" @click="dialogVisible = false"></Button>
         <Button type="button" label="Guardar" icon="pi pi-save" @click="handleSave"></Button>
+        <Button v-if="props.modoEdicion" type="button" label="Eliminar" icon="pi pi-trash" severity="danger" @click="handleDelete"></Button>
       </div>
     </Dialog>
   </div>

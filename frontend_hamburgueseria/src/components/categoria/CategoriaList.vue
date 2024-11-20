@@ -43,7 +43,6 @@ defineExpose({ obtenerLista })
         <tr>
           <th>Nro.</th>
           <th>Nombre</th>
-          <th>Nacionalidad</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -51,7 +50,6 @@ defineExpose({ obtenerLista })
         <tr v-for="(categoria, index) in categorias" :key="categoria.id">
           <td>{{ index + 1 }}</td>
           <td>{{ categoria.nombre }}</td>
-          <td>{{ categoria.descripcion }}</td>
           <td>
             <Button
               icon="pi pi-pencil"

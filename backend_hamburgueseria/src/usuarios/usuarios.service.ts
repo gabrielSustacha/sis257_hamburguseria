@@ -19,11 +19,10 @@ export class UsuariosService {
 
     const usuario = new Usuario();
     usuario.nombreUsuario = createUsuarioDto.nombreUsuario.trim();
-    usuario.clave = createUsuarioDto.clave.trim();
-    // usuario.clave = process.env.DEFAULT_PASSWORD;
+     usuario.clave = process.env.DEFAULT_PASSWORD;
    
     const usuarioBd = await this.usuariosRepository.save(usuario);
-    // delete usuarioBd.clave;
+    delete usuarioBd.clave;
 
     return usuarioBd;
   }

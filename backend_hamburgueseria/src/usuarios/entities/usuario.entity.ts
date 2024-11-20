@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-// import * as bcrypt from 'bcrypt';
+ import * as bcrypt from 'bcrypt';
 
 @Entity('usuarios')
 export class Usuario {
@@ -19,7 +19,7 @@ export class Usuario {
   @Column('varchar', { length: 50, nullable: false, name: 'nombre_usuario' })
   nombreUsuario: string;
 
-  @Column('varchar', { length: 500, nullable: false })
+  @Column('varchar', { length: 5000, nullable: true })
   clave: string;
 
 
@@ -33,15 +33,15 @@ export class Usuario {
   @OneToOne(() => Empleado, (empleado) => empleado.usuario)
   empleados: Empleado;
 
-  // @BeforeInsert()
-  // @BeforeUpdate()
-  // async hashPassword() {
-  //   const salt = await bcrypt.genSalt();
-  //   this.clave = await bcrypt.hash(this.clave, salt);
-  // }
+   @BeforeInsert()
+   @BeforeUpdate()
+   async hashPassword() {
+    const salt = await bcrypt.genSalt();
+    this.clave = await bcrypt.hash(this.clave, salt);
+   }
 
-  // async validatePassword(plainPassword: string): Promise<boolean> {
-  //   return bcrypt.compare(plainPassword, this.clave);
-  // }
+  async validatePassword(plainPassword: string): Promise<boolean> {
+    return bcrypt.compare(plainPassword, this.clave);
+    }
 }
 

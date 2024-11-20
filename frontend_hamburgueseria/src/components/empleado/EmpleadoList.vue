@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import type { Producto } from '@/models/producto'
+import type { Empleado } from '@/models/empleado'
 import http from '@/plugins/axios'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import { onMounted, ref } from 'vue'
 
-const ENDPOINT = 'productos'
-let productos = ref<Producto[]>([])
+const ENDPOINT = 'empleados'
+let empleados = ref<Empleado[]>([])
 const emit = defineEmits(['edit'])
-const productoDelete = ref<Producto | null>(null)
+const empleadoDelete = ref<Empleado | null>(null)
 const mostrarConfirmDialog = ref<boolean>(false)
 
 async function obtenerLista() {
-  productos.value = await http.get(ENDPOINT).then((response) => response.data)
+  empleados.value = await http.get(ENDPOINT).then((response) => response.data)
 }
 
-function emitirEdicion(producto: Producto) {
-  emit('edit', producto)
+function emitirEdicion(empleado: Empleado) {
+  emit('edit', empleado)
 }
 
 
-function mostrarEliminarConfirm(producto: Producto) {
-  productoDelete.value = producto
+function mostrarEliminarConfirm(empleado: Empleado) {
+  empleadoDelete.value = empleado
   mostrarConfirmDialog.value = true
 }
 
 async function eliminar() {
-  await http.delete(`${ENDPOINT}/${productoDelete.value?.id}`)
+  await http.delete(`${ENDPOINT}/${empleadoDelete.value?.id}`)
   obtenerLista()
   mostrarConfirmDialog.value = false
 }
@@ -54,26 +54,26 @@ function formatDate(dateString: string): string {
       <thead>
         <tr>
           <th>Nro.</th>
-          <th>Categoria</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Precio Unitario</th>
-          <th>Stock</th>
+          <th>Usuario</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Cargo</th>
+          <th>Salario</th>
+          <th>Fecha de Contrato</th>
           <th>Fecha de Registro</th>
-          <th>Fecha de Modificacion</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, index) in productos" :key="producto.id">
+        <tr v-for="(empleado, index) in empleados" :key="empleado.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ producto.categoria.nombre }}</td>
-          <td>{{ producto.nombre }}</td>
-          <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.precioUnitario }}</td>
-          <td>{{ producto.stock }}</td>
-          <td>{{ formatDate(producto. fechaCreacion) }}</td>
-          <td>{{formatDate(producto. fechaModificacion)  }}</td>
+          <td>{{ empleado.usuario.nombre }}</td>
+          <td>{{ empleado.nombres }}</td>
+          <td>{{ empleado.apellidos }}</td>
+          <td>{{ empleado.cargo }}</td>
+          <td>{{ empleado.salario }}</td>
+          <td>{{ formatDate(empleado. fechaContratacion) }}</td>
+          <td>{{formatDate(empleado. fechaCreacion)  }}</td>
 
 
 
@@ -82,13 +82,13 @@ function formatDate(dateString: string): string {
               icon="pi pi-pencil"
               aria-label="Editar"
               text
-              @click="emitirEdicion(producto)"
+              @click="emitirEdicion(empleado)"
             />
             <Button
               icon="pi pi-trash"
               aria-label="Eliminar"
               text
-              @click="mostrarEliminarConfirm(producto)"
+              @click="mostrarEliminarConfirm(empleado)"
             />
           </td>
         </tr>

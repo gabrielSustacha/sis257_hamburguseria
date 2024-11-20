@@ -1,20 +1,20 @@
 <script setup lang="ts">
- import ProductoList from '@/components/producto/ProductoList.vue'
- import ProductoSave from '@/components/producto/ProductoSave.vue'
+ import EmpleadoList from '@/components/empleado/EmpleadoList.vue'
+ import EmpleadoSave from '@/components/empleado/EmpleadoSave.vue'
 import Button from 'primevue/button'
 import { ref } from 'vue'
 
 const mostrarDialog = ref<boolean>(false)
-const productoListRef = ref<typeof ProductoList | null>(null)
-const productoEdit = ref<any>(null)
+const empleadoListRef = ref<typeof EmpleadoList | null>(null)
+const empleadoEdit = ref<any>(null)
 
 function hableCreate() {
-  productoEdit.value = null
+  empleadoEdit.value = null
   mostrarDialog.value = true
 }
 
-function handleEdit(producto: any) {
-  productoEdit.value = producto
+function handleEdit(empleado: any) {
+  empleadoEdit.value = empleado
   mostrarDialog.value = true
 }
 
@@ -23,19 +23,19 @@ function handleCloseDialog() {
 }
 
 function handleGuardar() {
-  productoListRef.value?.obtenerLista()
+  empleadoListRef.value?.obtenerLista()
 }
 </script>
 
 <template>
   <div class="m-8">
-    <h1>Productos</h1>
+    <h1>Empleados</h1>
     <Button label="Crear Nuevo" icon="pi pi-plus" @click="hableCreate" />
-    <ProductoList ref="productoListRef" @edit="handleEdit" />
-    <ProductoSave
+    <EmpleadoList ref="empleadoListRef" @edit="handleEdit" />
+    <EmpleadoSave
       :mostrar="mostrarDialog"
-      :producto="productoEdit"
-      :modoEdicion="!!productoEdit"
+      :empleado="empleadoEdit"
+      :modoEdicion="!!empleadoEdit"
       @guardar="handleGuardar"
       @close="handleCloseDialog"
     />

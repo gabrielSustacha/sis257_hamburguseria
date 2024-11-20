@@ -4,7 +4,7 @@ import { UpdatePagoDto } from './dto/update-pago.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pago } from './entities/pago.entity';
 import { Repository } from 'typeorm';
-import { Pedido } from 'src/pedidos/entities/pedido.entity';
+
 
 @Injectable()
 export class PagosService {
@@ -16,7 +16,7 @@ export class PagosService {
     const existe = await this.pagoRepository.findOneBy({
       monto: createPagoDto.monto,
       total: createPagoDto.total,
-      pedido: { id: createPagoDto.idPedido },
+     // pedido: { id: createPagoDto.idPedido },
     
     });
     if (existe) throw new ConflictException('El pago ya existe');
@@ -25,7 +25,7 @@ export class PagosService {
     pago.monto = createPagoDto.monto;
     pago.total = createPagoDto.total;
     pago.fechaPago = new Date();
-    pago.pedido = { id: createPagoDto.idPedido } as Pedido;
+   // pago.pedido = { id: createPagoDto.idPedido } as Pedido;
     return this.pagoRepository.save(pago);
   }
 
@@ -42,7 +42,7 @@ export class PagosService {
  async update(id: number, updatePagoDto: UpdatePagoDto): Promise<Pago> {
     const pago = await this.findOne(id);
     const pagoUpdate = Object.assign(pago, updatePagoDto);
-    pago.pedido = { id: updatePagoDto.idPedido } as Pedido;
+  //  pago.pedido = { id: updatePagoDto.idPedido } as Pedido;
     return this.pagoRepository.save(pagoUpdate);
   }
 

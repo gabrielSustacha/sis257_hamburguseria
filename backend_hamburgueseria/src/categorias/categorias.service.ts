@@ -7,43 +7,42 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriasService {
-    constructor(
-        @InjectRepository(Categoria)
-        private categoriaRepository: Repository<Categoria>,
-    ) {}
 
-    async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria> {
-        const existe = await this.categoriaRepository.findOneBy({
-            nombre: createCategoriaDto.nombre.trim(),
-        });
-        
-        if (existe) throw new ConflictException('La categoría ya existe');
-        const categoria = new Categoria();
-        categoria.nombre = createCategoriaDto.nombre.trim();
-        categoria.descripcion = createCategoriaDto.descripcion?.trim();
+  constructor(
+    @InjectRepository(Categoria) private categoriasRepository: Repository<Categoria>) { }
 
-        return this.categoriaRepository.save(categoria);
+
+    
+  async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria> {
+    const categoria = this.categoriasRepository.create({
+      nombre: createCategoriaDto.nombre.trim(),
+    })
+    return this.categoriasRepository.save(categoria)
+  }
+
+
+
+  async findAll(): Promise<Categoria[]> {
+
+    return this.categoriasRepository.find();
+  }
+
+  async findOne(id: number): Promise<Categoria> {
+    const categoria = await this.categoriasRepository.findOneBy({ id });
+    if (!categoria) {
+      throw new NotFoundException(`La categoria con el id ${id} no existe`)
     }
+    return categoria;
+  }
 
-    async findAll(): Promise<Categoria[]> {
-        return this.categoriaRepository.find();
-    }
+  async update(id: number, updateCategoriaDto: UpdateCategoriaDto): Promise<Categoria> {
+    const categoria = await this.findOne(id);
+    const actualizaCategoria = Object.assign(categoria, updateCategoriaDto);
+    return  this.categoriasRepository.save(actualizaCategoria);
+  }
 
-    async findOne(id: number): Promise<Categoria> {
-        const categoria = await this.categoriaRepository.findOne({ where: { id } });
-        if (!categoria) throw new NotFoundException('La categoría no existe');
-        return categoria;
-    }
-
-    async update(id: number, updateCategoriaDto: UpdateCategoriaDto){
-        const categoria = await this.findOne(id);
-        const categoriaUpdate = Object.assign(categoria, updateCategoriaDto);
-        
-        return this.categoriaRepository.save(categoriaUpdate);
-    }
-
-    async remove(id: number) {
-      const categoria = await this.findOne(id);
-      return this.categoriaRepository.softRemove(categoria);
-    }
+  async remove(id: number) {
+    const categoria = await this.findOne(id)
+    return this.categoriasRepository.delete(categoria.id);
+  }
 }

@@ -15,10 +15,7 @@ export class EmpleadosService {
 
   async create(createEmpleadoDto: CreateEmpleadoDto): Promise<Empleado> {
     const existe = await this.empleadosRepository.findOneBy({
-      nombre: createEmpleadoDto.nombre.trim(),
-      cargo: createEmpleadoDto.cargo.trim(),
-      celular: createEmpleadoDto.celular.trim(),
-      usuario: { id: createEmpleadoDto.idUsuario },
+      // usuario: { id: createEmpleadoDto.idUsuario },
     });
 
     if (existe) {
@@ -27,10 +24,11 @@ export class EmpleadosService {
 
     const empleado = new Empleado();
     empleado.nombre = createEmpleadoDto.nombre.trim();
+    empleado.apellido = createEmpleadoDto.apellido.trim();
     empleado.cargo = createEmpleadoDto.cargo.trim();
     empleado.celular = createEmpleadoDto.celular.trim();
     empleado.fechaContratacion = createEmpleadoDto.fechaContratacion;
-    empleado.usuario = { id: createEmpleadoDto.idUsuario } as Usuario;
+    // empleado.usuario = { id: createEmpleadoDto.idUsuario } as Usuario;
     
     return this.empleadosRepository.save(empleado);
   }

@@ -6,6 +6,11 @@ export class CreateEmpleadoDto {
     @IsNotEmpty({ message: 'El nombre es obligatorio' })
     @IsString({ message: 'El nombre debe ser una cadena de texto' })
     readonly nombre: string;
+
+    @ApiProperty()
+    @IsNotEmpty({ message: 'El apellido es obligatorio' })
+    @IsString({ message: 'El apellido debe ser una cadena de texto' })
+    readonly apellido: string;
   
     @ApiProperty()
     @IsNotEmpty({ message: 'El cargo es obligatorio' })
@@ -16,6 +21,7 @@ export class CreateEmpleadoDto {
     @IsNotEmpty({ message: 'El celular es obligatorio' })
     @IsString({ message: 'El celular debe ser una cadena de texto' })
     readonly celular: string;
+
     @ApiProperty()
     @IsDefined({ message: 'El campo fechaContratacion debe estar definido' })
     @IsDateString(
@@ -23,8 +29,9 @@ export class CreateEmpleadoDto {
       { message: 'El campo fechaContratacion debe ser de tipo fecha' },
     )
     readonly fechaContratacion: Date;
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El ID de usuario es obligatorio' })
-  @IsNumber({}, { message: 'El ID de usuario debe ser un número' })
-  readonly idUsuario: number;
+
+  // @ApiProperty()
+  // @IsNotEmpty({ message: 'El ID de usuario es obligatorio' })
+  // @IsNumber({}, { message: 'El ID de usuario debe ser un número' })
+  // readonly idUsuario: number;
 }

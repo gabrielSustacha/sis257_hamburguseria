@@ -18,21 +18,9 @@ export class CreateUsuarioDto {
     })
     readonly clave: string;
     
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo email es obligatorio' })
-    @IsString({ message: 'El campo email debe ser de tipo cadena' })
-    @MaxLength(255, {
-        message: 'El campo email no debe ser mayor a 255 caracteres',
-    })
-    readonly email: string;
+  
     
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo rol es obligatorio' })
-    @IsString({ message: 'El campo rol debe ser de tipo cadena' })
-    @MaxLength(255, {
-        message: 'El campo rol no debe ser mayor a 255 caracteres',
-    })
-    readonly rol: string;
+ 
 }
 
 

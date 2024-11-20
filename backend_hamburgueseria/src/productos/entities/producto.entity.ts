@@ -1,36 +1,45 @@
 import { Categoria } from "src/categorias/entities/categoria.entity";
-import { DetallePedido } from "src/detalle-pedidos/entities/detalle-pedido.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Ventadetalle } from "src/ventadetalles/entities/ventadetalle.entity";
+import { Venta } from "src/ventas/entities/venta.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('productos')
 export class Producto {
-    @PrimaryGeneratedColumn('identity')
+    @PrimaryGeneratedColumn() 
     id: number;
 
-    @Column('varchar', { length: 150 })
+    @Column('varchar', { length: 50, nullable: false })
+    nombre: string;
+
+    @Column('varchar', { length: 200, nullable: false })
     descripcion: string;
 
-    @Column('decimal', { precision: 10, scale: 2 })
-    precio: number;
+    @Column({name:'precio_unitario'})
+    precioUnitario:number;
 
-    @Column('decimal', { precision: 10, scale: 2 })
+    @Column()
     stock: number;
-
-    @Column('decimal', { precision: 10, scale: 2, nullable: true, default: 0 })
-    descuento: number;
 
     @CreateDateColumn({ name: 'fecha_creacion' })
     fechaCreacion: Date;
 
     @UpdateDateColumn({ name: 'fecha_modificacion' })
-    fechaModificacion: Date;
+    fechaModificacion;
 
-    @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
-    fechaEliminacion: Date;
-    @OneToMany(() => DetallePedido, (detallePedidos) => detallePedidos.producto)
-    detalleProductos: DetallePedido[];
 
-    @ManyToOne(() => Categoria, (categoria) => categoria.producto)
-    @JoinColumn({ name: 'id_categoria', referencedColumnName: 'id' })
-    categoria: Categoria;
+    //id:categoria
+    //varios productos pertenecen a Una categoría 
+    @ManyToOne(()=>Categoria,categoria=>categoria.productos)
+    @JoinColumn({name:'idCategoria',referencedColumnName:'id'})
+    categoria: Categoria
+    //un producto puede tener varios ventas de detalle
+    @OneToMany(()=>Ventadetalle,ventadetalle=>ventadetalle.producto)
+    ventadetalles:Ventadetalle[];
+
+    @OneToMany(()=>Venta,venta=>venta.producto)
+    ventas:Venta[];
+    
+
 }
+
+

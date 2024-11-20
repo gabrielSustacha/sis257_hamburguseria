@@ -7,10 +7,12 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { EmpleadosModule } from './empleados/empleados.module';
 import { ProductosModule } from './productos/productos.module';
-import { PedidosModule } from './pedidos/pedidos.module';
+
 import { PagosModule } from './pagos/pagos.module';
-import { DetallePedidosModule } from './detalle-pedidos/detalle-pedidos.module';
+
 import { CategoriasModule } from './categorias/categorias.module';
+import { VentasModule } from './ventas/ventas.module';
+import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -29,10 +31,10 @@ import { CategoriasModule } from './categorias/categorias.module';
   ClientesModule,
   EmpleadosModule,
   ProductosModule,
-  PedidosModule,
   PagosModule,
-  DetallePedidosModule,
   CategoriasModule,
+  VentasModule,
+  VentasDetallesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

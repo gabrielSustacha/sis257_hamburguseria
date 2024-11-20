@@ -1,16 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { VentasDetalleService } from './ventas-detalles.service';
-import { CreateVentaDetalleDto } from './dto/create-ventas-detalle.dto';
+import { VentadetallesService } from './ventas-detalles.service';
+import { CreateVentadetalleDto } from './dto/create-ventas-detalle.dto';
 import { UpdateVentasDetalleDto } from './dto/update-ventas-detalle.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Ventas-detalles')
 @Controller('ventas-detalles')
 export class VentasDetallesController {
-  constructor(private readonly ventasDetallesService: VentasDetalleService) {}
+  constructor(private readonly ventasDetallesService: VentadetallesService) {}
 
   @Post()
-  create(@Body() createVentasDetalleDto: CreateVentaDetalleDto) {
+  create(@Body() createVentasDetalleDto: CreateVentadetalleDto) {
     return this.ventasDetallesService.create(createVentasDetalleDto);
   }
 

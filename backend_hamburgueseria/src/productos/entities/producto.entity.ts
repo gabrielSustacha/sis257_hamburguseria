@@ -1,5 +1,5 @@
 import { Categoria } from "src/categorias/entities/categoria.entity";
-import { Ventadetalle } from "src/ventadetalles/entities/ventadetalle.entity";
+import { Ventadetalle } from "src/ventas-detalles/entities/ventas-detalle.entity";
 import { Venta } from "src/ventas/entities/venta.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 

@@ -11,8 +11,6 @@ import { ProductosModule } from './productos/productos.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { VentasModule } from './ventas/ventas.module';
 import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
-import { VentadetallesModule } from './ventadetalles/ventadetalles.module';
-import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -34,7 +32,7 @@ import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
   CategoriasModule,
   VentasModule,
   VentasDetallesModule,
-  VentadetallesModule,
+  VentasDetallesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

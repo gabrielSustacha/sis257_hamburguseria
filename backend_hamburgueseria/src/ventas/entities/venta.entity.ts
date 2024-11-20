@@ -1,7 +1,7 @@
 import { Cliente } from 'src/clientes/entities/cliente.entity';
 import { Empleado } from 'src/empleados/entities/empleado.entity';
 import { Producto } from 'src/productos/entities/producto.entity';
-import { Ventadetalle } from 'src/ventadetalles/entities/ventadetalle.entity';
+import { Ventadetalle } from 'src/ventas-detalles/entities/ventas-detalle.entity';
 import {
   Column,
   CreateDateColumn,

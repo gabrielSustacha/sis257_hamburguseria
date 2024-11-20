@@ -61,10 +61,10 @@ async function handleSave() {
   try {
     const body = {
       idCategoria: producto.value.categoria?.id,
+      nombre:producto.value.nombre,
       descripcion: producto.value.descripcion,
-      precio: producto.value.precio,
+      precioUnitario: producto.value.precioUnitario,
       stock: producto.value.stock,
-      descuento: producto.value.descuento
     }
 
     if (props.modoEdicion) {
@@ -125,13 +125,26 @@ watch(
           id="categoria"
           v-model="producto.categoria"
           :options="categorias"
-          optionLabel="descripcion"
+          optionLabel="nombre"
           class="flex-auto"
           placeholder="Seleccione una categoría"
         />
       </div>
 
       <!-- Campo de descripción del producto -->
+
+
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="nombre" class="font-semibold w-4">Nombre</label>
+        <InputText
+          id="nombre"
+          v-model="producto.nombre"
+          class="flex-auto"
+          autocomplete="off"
+        />
+      </div>
+
       <div class="flex items-center gap-4 mb-4">
         <label for="descripcion" class="font-semibold w-4">Descripción</label>
         <InputText
@@ -144,13 +157,11 @@ watch(
 
       <!-- Campo para el precio del producto -->
       <div class="flex items-center gap-4 mb-4">
-        <label for="precio" class="font-semibold w-4">Precio</label>
+        <label for="precio" class="font-semibold w-4">Precio  Bs.</label>
         <InputNumber
           id="precio"
-          v-model="producto.precio"
-          mode="currency"
-          currency="USD"
-          locale="en-US"
+          v-model="producto.precioUnitario"
+
           class="flex-auto"
           :min="0"
         />
@@ -167,16 +178,7 @@ watch(
         />
       </div>
 
-      <!-- Campo para el descuento del producto -->
-      <div class="flex items-center gap-4 mb-4">
-        <label for="descuento" class="font-semibold w-4">Descuento</label>
-        <InputNumber
-          id="descuento"
-          v-model="producto.descuento"
-          class="flex-auto"
-          :min="0"
-        />
-      </div>
+
 
       <!-- Botones de acción -->
       <div class="flex justify-end gap-2">

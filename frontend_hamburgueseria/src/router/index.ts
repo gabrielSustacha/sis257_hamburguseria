@@ -24,11 +24,7 @@ const router = createRouter({
       name: 'categoria',
       component: () => import('../views/CategoriaView.vue'),
     },
-    {
-      path: '/pedido',
-      name: 'pedido',
-      component: () => import('../views/PedidoView.vue'),
-    },
+
     {
       path: '/cliente',
       name: 'cliente',

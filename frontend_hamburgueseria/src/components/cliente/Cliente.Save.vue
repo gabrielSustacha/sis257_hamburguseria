@@ -36,10 +36,10 @@ async function handleSave() {
   try {
     const body = {
       nombres: cliente.value.nombres,
-
+      apellidos:cliente.value.apellidos,
+      direccion: cliente.value.direccion,
+      telefono:cliente.value.telefono,
       email: cliente.value.email,
-      celular: cliente.value.celular,
-      direccion: cliente.value.direccion
     }
     if (props.modoEdicion) {
       await http.patch(`${ENDPOINT}/${cliente.value.id}`, body)
@@ -63,15 +63,49 @@ async function handleSave() {
       style="width: 25rem"
     >
       <div class="flex items-center gap-4 mb-4">
-        <label for="nombre" class="font-semibold w-4">Nombre</label>
+        <label for="nombre" class="font-semibold w-4">Nombres</label>
         <InputText
           id="nombre"
-          v-model="cliente.nombre"
+          v-model="cliente.nombres"
           class="flex-auto"
           autocomplete="off"
           autofocus
         />
       </div>
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="apellido" class="font-semibold w-4">Apellidos</label>
+        <InputText
+          id="apellido"
+          v-model="cliente.apellidos"
+          class="flex-auto"
+          autocomplete="off"
+          autofocus
+        />
+      </div>
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="direccion" class="font-semibold w-4">Direccion</label>
+        <InputText
+          id="direccion"
+          v-model="cliente.direccion"
+          class="flex-auto"
+          autocomplete="off"
+          autofocus
+        />
+      </div>
+
+
+      <div class="flex items-center gap-4 mb-4">
+        <label for="telefono" class="font-semibold w-4">Telefono</label>
+        <InputText
+          id="telefono"
+          v-model="cliente.telefono"
+          class="flex-auto"
+          autocomplete="off"
+        />
+      </div>
+
       <div class="flex items-center gap-4 mb-4">
         <label for="email" class="font-semibold w-4">Email</label>
         <InputText
@@ -81,24 +115,7 @@ async function handleSave() {
           autocomplete="off"
         />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="celular" class="font-semibold w-4">Celular</label>
-        <InputText
-          id="celular"
-          v-model="cliente.celular"
-          class="flex-auto"
-          autocomplete="off"
-        />
-      </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="direccion" class="font-semibold w-4">Direccion</label>
-        <InputText
-          id="direccion"
-          v-model="cliente.direccion"
-          class="flex-auto"
-          autocomplete="off"
-        />
-      </div>
+
       <div class="flex justify-end gap-2">
         <Button
           type="button"

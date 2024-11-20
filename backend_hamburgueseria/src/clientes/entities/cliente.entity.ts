@@ -1,25 +1,35 @@
-
-import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Venta } from "src/ventas/entities/venta.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('clientes')
 export class Cliente {
-    @PrimaryGeneratedColumn('identity')
-    id: number;
+    @PrimaryGeneratedColumn()
+    id:number;
 
-    @Column('varchar', { length: 50 })
-    nombre: string;
+    @Column('varchar',{length:50,nullable:false}) 
+    nombres:string;
 
-    @Column('varchar', { length: 50 })
-    email: string;
+    @Column('varchar',{length:50,nullable:false})
+    apellidos:string;
 
-    @Column('varchar', { length: 8 })
-    celular: string;
+    @Column('varchar',{length:50,nullable:false})
+    direccion:string;
 
-    @Column('varchar', { length: 50 })
-    direccion: string;
-    @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
-    fechaEliminacion: Date;
-    venta: any;
-   // @OneToMany(() => Pedido, (pedido) => pedido.cliente)
-  //  pedidos: Pedido[];
+    @Column('varchar',{length:50,nullable:false})
+    telefono:string;
+
+    @Column({length:50,nullable:false})
+    email:string;
+
+    
+    @CreateDateColumn({ name: 'fecha_creacion' })
+    fechaCreacion: Date;
+
+    @UpdateDateColumn({ name: 'fecha_modificacion' })
+    fechaModificacion: Date;
+
+    // un cliente puede realizar muchas ventas 
+    @OneToMany(()=>Venta,venta=>venta.cliente)
+    ventas:Venta[];
+
 }

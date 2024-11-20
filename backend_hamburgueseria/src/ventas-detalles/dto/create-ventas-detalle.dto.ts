@@ -1,27 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsNumber, IsString, MaxLength, Min, MinLength } from 'class-validator';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export class CreateVentaDetalleDto {
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo idProducto es obligatorio' })
-    @IsNumber({}, { message: 'El campo idProducto debe ser de tipo numérico' })
-    readonly idProducto: number;
+export class CreateVentadetalleDto {
+  
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El campo cantidad no debe ser vacío' })
+  @IsString({ message: 'El campo cantidad debe ser de tipo cadena' })
+  @MaxLength(50, { message: 'El campo cantidad no debe ser nemor a 50 caracteres'})
+  @MinLength(1, {message: 'El campo cantidad no debe ser mayor a 1 caracteres'})
+  readonly cantidad: string;
 
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo cantidad es obligatorio' })
-    @IsNumber({}, { message: 'El campo cantidad debe ser de tipo numérico' })
-    @Min(1, { message: 'La cantidad debe ser al menos 1' })
-    readonly cantidad: number;
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El campo subtotal no debe ser vacío' })
+  @IsString({ message: 'El campo subtotal debe ser de tipo cadena' })
+  @MaxLength(50, { message: 'El campo subtotal no debe ser nemor a 50 caracteres'})
+  @MinLength(1, {message: 'El campo subtotal no debe ser mayor a 4 caracteres'})
+  readonly subtotal: string;
 
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo precioUnitario es obligatorio' })
-    @IsNumber({}, { message: 'El campo precioUnitario debe ser de tipo numérico' })
-    @Min(0, { message: 'El precio unitario no puede ser negativo' })
-    readonly precioUnitario: number;
+  @CreateDateColumn({ name: 'fecha_creacion' })
+  fechaCreacion: Date;
 
-    @ApiProperty()
-    @IsNotEmpty({ message: 'El campo total es obligatorio' })
-    @IsNumber({}, { message: 'El campo total debe ser de tipo numérico' })
-    @Min(0, { message: 'El total no puede ser negativo' })
-    readonly total: number;
+  @UpdateDateColumn({ name: 'fecha_modificacion' })
+  fechaModificacion: Date;
+
+  @ApiProperty()
+  @IsDefined({ message: 'El campo idVenta debe estar definido' })
+  @IsNumber({}, { message: 'El campo idVenta debe ser de tipo numérico' })
+  readonly idVenta: number;
+
+  @ApiProperty()
+  @IsDefined({ message: 'El campo idProducto debe estar definido' })
+  @IsNumber({}, { message: 'El campo idProducto debe ser de tipo numérico' })
+  readonly idProducto: number;
 }

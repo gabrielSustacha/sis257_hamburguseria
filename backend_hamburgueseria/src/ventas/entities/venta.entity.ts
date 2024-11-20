@@ -1,34 +1,49 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Cliente } from 'src/clientes/entities/cliente.entity';
-import { VentaDetalle } from 'src/ventas-detalles/entities/ventas-detalle.entity';
 import { Empleado } from 'src/empleados/entities/empleado.entity';
+import { Producto } from 'src/productos/entities/producto.entity';
+import { Ventadetalle } from 'src/ventadetalles/entities/ventadetalle.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-
-@Entity()
+@Entity('ventas')
 export class Venta {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-   
-    @Column()
-    fechaVenta: Date;
+  @Column()
+  cantidad: number;
 
-    @Column()
-    metodoPago: string;
+  @Column({ name: 'precio_unitario' })
+  precioUnitario: number;
 
-    @Column('decimal', { precision: 10, scale: 2 })
-    total: number;
+  @Column({ name: 'total_venta' })
+  totalVenta: number;
 
-  
-    
+  @CreateDateColumn({ name: 'fecha_creacion' })
+  fechaCreacion: Date;
 
+  //  muchas ventas puede realizar  un cliente
+  @ManyToOne(() => Cliente, (cliente) => cliente.ventas)
+  @JoinColumn({ name: 'idCliente', referencedColumnName: 'id' })
+  cliente: Cliente;
 
-    @OneToMany(() => VentaDetalle, ventaDetalle => ventaDetalle.venta, { cascade: true })
-    detalles: VentaDetalle[];
+  @ManyToOne(() => Producto, (producto) => producto.ventas)
+  @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
+  producto: Producto;
 
-    @ManyToOne(() => Empleado, (empleado) => empleado.ventas)
-    @JoinColumn({ name: 'id_empleado', referencedColumnName: 'id' })
-    empleado: Empleado;
+  @ManyToOne(() => Empleado, (empleado) => empleado.ventas)
+  @JoinColumn({ name: 'id_Empleado', referencedColumnName: 'id' })
+  empleado: Empleado;
 
+  //una venta puede tener varios detalles de venta
+  @OneToMany(() => Ventadetalle, (ventadetalle) => ventadetalle.venta)
+  ventadetalles: Ventadetalle[];
 
 }

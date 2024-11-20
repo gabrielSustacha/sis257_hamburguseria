@@ -23,6 +23,9 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/cliente">Cliente</RouterLink>
         <RouterLink to="/usuario">Usuario</RouterLink>
         <RouterLink to="/empleado">Empleado</RouterLink>
+        <RouterLink to="/venta">Ventas</RouterLink>
+        <RouterLink to="/ventaDetalle">Detalle de Ventas</RouterLink>
+
       </nav>
     </div>
   </header>

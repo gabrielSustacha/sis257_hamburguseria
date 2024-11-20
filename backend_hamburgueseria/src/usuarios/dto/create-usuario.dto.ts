@@ -12,7 +12,6 @@ export class CreateUsuarioDto {
 
     @ApiProperty()
     @IsNotEmpty({ message: 'El campo clave no debe ser vacío' })
-    @IsEmail({}, { message: 'El campo clave debe tener el formato correcto' })
     @MaxLength(50, { message: 'El campo clave no debe ser mayor a 50 caracteres' })
     @MinLength(2, { message: 'El campo clave no debe ser menor a 10 caracteres' })
     readonly clave: string;

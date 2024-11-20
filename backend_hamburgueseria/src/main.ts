@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-  .setTitle('API Rest SIS257')
+  .setTitle('API Rest HAMBURGUESERIA LA TERSA')
   .setDescription('API Rest de la materia Desarrollo de App Int/Internet II')
   .setVersion('1.0')
   .addTag('clientes')

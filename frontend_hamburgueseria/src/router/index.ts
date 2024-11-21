@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from "@/views/LoginView.vue";
 import HomeView from '../views/HomeView.vue'
-import { useAuthStore } from "@/stores/index";
 import { getTokenFromLocalStorage } from '@/helpers';
-const authStore = useAuthStore();
+import { useAuthStore } from '@/stores';
 
 
 const router = createRouter({

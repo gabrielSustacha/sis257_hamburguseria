@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { VentadetallesService } from './ventas-detalles.service';
 import { CreateVentadetalleDto } from './dto/create-ventas-detalle.dto';
 import { UpdateVentasDetalleDto } from './dto/update-ventas-detalle.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+@ApiBearerAuth()
 
 @ApiTags('Ventas-detalles')
 @Controller('ventas-detalles')

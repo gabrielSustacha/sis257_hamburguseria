@@ -11,6 +11,7 @@ import { ProductosModule } from './productos/productos.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { VentasModule } from './ventas/ventas.module';
 import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot(),
@@ -33,6 +34,7 @@ import { VentasDetallesModule } from './ventas-detalles/ventas-detalles.module';
   VentasModule,
   VentasDetallesModule,
   VentasDetallesModule,
+  AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

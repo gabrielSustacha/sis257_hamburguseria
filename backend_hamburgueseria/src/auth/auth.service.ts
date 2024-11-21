@@ -13,8 +13,8 @@ export class AuthService {
   ) {}
 
   async login(authLoginDto: AuthLoginDto): Promise<any> {
-    const { usuario, clave } = authLoginDto;
-    const usuarioOk = await this.usuarioService.validate(usuario, clave);
+    const { nombreUsuario, clave } = authLoginDto;
+    const usuarioOk = await this.usuarioService.validate(nombreUsuario, clave);
 
     const payload = { sub: usuarioOk.id };
     const access_token = await this.getAccessToken(payload);
@@ -42,3 +42,4 @@ export class AuthService {
     return usuario;
   }
 }
+

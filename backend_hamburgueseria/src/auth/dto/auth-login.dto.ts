@@ -7,7 +7,7 @@ export class AuthLoginDto {
     @IsString({ message: 'El campo Usuario debe ser de tipo cadena' })
     @MaxLength(20, { message: 'El campo Usuario excede los 20 caracteres' })
     @MinLength(4, { message: 'El campo Usuario es menor a 4 caracteres' })
-    usuario: string;
+    nombreUsuario: string;
   
     @ApiProperty()
     @IsNotEmpty({ message: 'El campo Clave/Contraseña no debe ser vacío' })

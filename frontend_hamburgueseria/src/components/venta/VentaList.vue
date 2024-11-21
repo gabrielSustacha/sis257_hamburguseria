@@ -73,7 +73,7 @@ function formatDate(dateString: string): string {
           <td>{{ venta.cantidad }}</td>
           <td>{{ venta.precioUnitario }}</td>
           <td>{{ venta.totalVenta }}</td>
-          <td>{{ formatDate(venta. fechaCreacion) }}</td>
+          <td>{{ formatDate(venta.fechaCreacion) }}</td>
 
 
 

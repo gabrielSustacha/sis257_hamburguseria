@@ -24,7 +24,7 @@ export class Producto {
     fechaCreacion: Date;
 
     @UpdateDateColumn({ name: 'fecha_modificacion' })
-    fechaModificacion;
+    fechaModificacion:Date;
 
 
     //id:categoria

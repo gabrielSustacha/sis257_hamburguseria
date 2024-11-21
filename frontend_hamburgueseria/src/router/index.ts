@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LoginView from "@/views/LoginView.vue";
 import HomeView from '../views/HomeView.vue'
+import { useAuthStore } from "@/stores/index";
+const authStore = useAuthStore();
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +13,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+
+
+    { path: "/login", name: "login", component: LoginView },
+
+
     {
       path: '/about',
       name: 'about',
@@ -57,5 +66,17 @@ const router = createRouter({
 
   ],
 })
+
+router.beforeEach(async to => {
+  const publicPages = ["/login"];
+  const authRequired = !publicPages.includes(to.path);
+  const authStore = useAuthStore();
+
+  if (authRequired && !getTokenFromLocalStorage()) {
+    if (authStore) authStore.logout();
+    authStore.returnUrl = to.fullPath;
+    return "/login";
+  }
+});
 
 export default router

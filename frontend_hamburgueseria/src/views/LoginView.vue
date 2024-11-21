@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAuthStore } from "@/stores/index";
+import { useAuthStore } from '@/stores';
+import { ref } from 'vue'
 
-const usuario = ref("");
-const clave = ref("");
-const error = ref(false);
+const usuario = ref('')
+const clave = ref('')
+const error = ref(false)
 
 function onSubmit() {
-  const authStore = useAuthStore();
-  authStore.login(usuario.value, clave.value).catch(() => (error.value = true));
+  const authStore = useAuthStore()
+  authStore.login(usuario.value, clave.value).catch(() => (error.value = true))
 }
 </script>
 
@@ -17,21 +17,10 @@ function onSubmit() {
     <h1 class="text-center">Iniciar Sesión</h1>
     <form class="form" @submit.prevent="onSubmit">
       <label class="form-label">Usuario:</label>
-      <input
-        v-model="usuario"
-        type="text"
-        class="form-input"
-        placeholder="Usuario"
-        autofocus
-      />
+      <input v-model="usuario" type="text" class="form-input" placeholder="Usuario" autofocus />
 
       <label class="form-label">Contraseña:</label>
-      <input
-        v-model="clave"
-        type="password"
-        class="form-input"
-        placeholder="Contraseña"
-      />
+      <input v-model="clave" type="password" class="form-input" placeholder="Contraseña" />
 
       <p v-if="error" class="text-danger">Usuario y/o contraseña incorrectos</p>
       <input type="submit" class="form-submit" value="Ingresar" />
@@ -39,7 +28,7 @@ function onSubmit() {
   </div>
 </template>
 
-<style>
+<style scoped>
 .form {
   margin: 1.5rem auto;
   display: flex;

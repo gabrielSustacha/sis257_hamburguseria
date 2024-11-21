@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useAuthStore } from "@/stores/index";
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -13,11 +15,15 @@ import HelloWorld from './components/HelloWorld.vue'
       height="125"
     />
 
+
+
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld :msg="'SIS257' + (authStore.user ? ' - Hola ' + authStore.user : '')" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink v-if="!authStore.token" to="/login" >Iniciar Sesión</RouterLink>
+       <span v-else>
         <RouterLink to="/producto">Productos</RouterLink>
         <RouterLink to="/categoria">Categoria</RouterLink>
         <RouterLink to="/cliente">Cliente</RouterLink>
@@ -25,6 +31,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/empleado">Empleado</RouterLink>
         <RouterLink to="/venta">Ventas</RouterLink>
         <RouterLink to="/ventaDetalle">Detalle de Ventas</RouterLink>
+        <a @click="authStore.logout()" class="text-danger">Salir</a>
+       </span>
 
       </nav>
     </div>

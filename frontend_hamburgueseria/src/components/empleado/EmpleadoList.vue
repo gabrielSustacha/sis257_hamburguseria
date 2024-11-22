@@ -1,117 +1,106 @@
 <script setup lang="ts">
-import type { Empleado } from '@/models/empleado'
-import http from '@/plugins/axios'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import { onMounted, ref } from 'vue'
+import type { Empleado } from "@/models/empleado";
+import { onMounted, ref } from "vue";
+import http from "@/plugins/axios";
+import router from "@/router";
 
-const ENDPOINT = 'empleados'
-let empleados = ref<Empleado[]>([])
-const emit = defineEmits(['edit'])
-const empleadoDelete = ref<Empleado | null>(null)
-const mostrarConfirmDialog = ref<boolean>(false)
+const props = defineProps<{
+  ENDPOINT_API: string;
+}>();
 
-async function obtenerLista() {
-  empleados.value = await http.get(ENDPOINT).then((response) => response.data)
+const ENDPOINT = props.ENDPOINT_API ?? "";
+var empleados = ref<Empleado[]>([]);
+
+
+async function getEmpleados() {
+  empleados.value = await http.get(ENDPOINT).then((response) => response.data);
 }
 
-function emitirEdicion(empleado: Empleado) {
-  emit('edit', empleado)
+function toEdit(id: number) {
+  router.push(`/empleados/editar/${id}`);
 }
 
-
-function mostrarEliminarConfirm(empleado: Empleado) {
-  empleadoDelete.value = empleado
-  mostrarConfirmDialog.value = true
-}
-
-async function eliminar() {
-  await http.delete(`${ENDPOINT}/${empleadoDelete.value?.id}`)
-  obtenerLista()
-  mostrarConfirmDialog.value = false
+async function toDelete(id: number) {
+  var r = confirm("¿Está seguro que se desea eliminar el Empleado?");
+  if (r == true) {
+    await http.delete(`${ENDPOINT}/${id}`).then(() => getEmpleados());
+  }
 }
 
 onMounted(() => {
-  obtenerLista()
-})
-defineExpose({ obtenerLista })
-
-
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-
+  getEmpleados();
+});
 </script>
 
 <template>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Nro.</th>
-          <th>Usuario</th>
-          <th>Nombres</th>
-          <th>Apellidos</th>
-          <th>Cargo</th>
-          <th>Salario</th>
-          <th>Fecha de Contrato</th>
-          <th>Fecha de Registro</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(empleado, index) in empleados" :key="empleado.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ empleado.usuario.nombre }}</td>
-          <td>{{ empleado.nombres }}</td>
-          <td>{{ empleado.apellidos }}</td>
-          <td>{{ empleado.cargo }}</td>
-          <td>{{ empleado.salario }}</td>
-          <td>{{ formatDate(empleado. fechaContratacion) }}</td>
-          <td>{{formatDate(empleado. fechaCreacion)  }}</td>
+  <div class="container">
+    
 
-
-
-          <td>
-            <Button
-              icon="pi pi-pencil"
-              aria-label="Editar"
-              text
-              @click="emitirEdicion(empleado)"
-            />
-            <Button
-              icon="pi pi-trash"
-              aria-label="Eliminar"
-              text
-              @click="mostrarEliminarConfirm(empleado)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <Dialog
-      v-model:visible="mostrarConfirmDialog"
-      header="Confirmar Eliminación"
-      :style="{ width: '25rem' }"
-    >
-      <p>¿Estás seguro de que deseas eliminar este registro?</p>
-      <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          severity="secondary"
-          @click="mostrarConfirmDialog = false"
-        />
-        <Button type="button" label="Eliminar" @click="eliminar" />
+    <div class="row">
+      <h2>Historial de Empleados</h2>
+      <div class="col-12">
+        <RouterLink to="/empleados/crear"
+        >Crear Nuevo Empleado
+        </RouterLink>
       </div>
-    </Dialog>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Usuario</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Salario</th>
+            <th scope="col">Fecha de Contratación</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(empleado, index) in empleados.values()" :key="empleado.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ empleado.usuario.nombreUsuario }}</td>
+            <td>{{ empleado.nombres }}</td>
+            <td>{{ empleado.apellidos }}</td>
+            <td>{{ empleado.cargo }}</td>
+            <td>{{ empleado.salario }}</td>
+            <td>{{ empleado.fechaContratacion }}</td>
+
+            <td>
+              <button class="btn btn-link" @click="toEdit(empleado.id)">
+                <font-awesome-icon icon="fa-solid fa-edit" title="Editar" />
+              </button>
+
+              <button class="btn btn-link" @click="toDelete(empleado.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" title="Elimnar" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.table th{
+   background-color: white; /* Color plomo */
+  border: 1px solid #000000; /* Bordes negros */
+}
+.table td {
+  background-color:rgba(227, 155, 20); /* Color plomo */
+  border: 1px solid #000000; /* Bordes negros */
+}
+
+
+.table td {
+  color: #000000; /* Texto oscuro para las celdas */
+}
+.btn{
+  color :#000000;
+}
+</style>

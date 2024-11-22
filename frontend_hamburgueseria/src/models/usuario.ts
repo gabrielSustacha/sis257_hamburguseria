@@ -1,11 +1,7 @@
 export interface Usuario {
   id: number
 
-  nombreUsuario: string;
+  nombreUsuario: string
 
-  clave: string;
-
-
-  fechaCreacion: Date;
-
+  email: string
 }

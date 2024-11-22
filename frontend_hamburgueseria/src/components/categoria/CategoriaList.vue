@@ -1,90 +1,102 @@
 <script setup lang="ts">
-import type { Categoria } from '@/models/categoria'
+import type { Categoria } from '@/models/categoria'    
+import { onMounted, ref } from 'vue'  
 import http from '@/plugins/axios'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import { onMounted, ref } from 'vue'
+import router from '@/router'
 
-const ENDPOINT = 'categorias'
-let categorias = ref<Categoria[]>([])
-const emit = defineEmits(['edit'])
-const categoriaDelete = ref<Categoria | null>(null)
-const mostrarConfirmDialog = ref<boolean>(false)
+const props = defineProps<{
+  ENDPOINT_API: string
+}>()
 
-async function obtenerLista() {
+const ENDPOINT = props.ENDPOINT_API ?? ''
+var categorias = ref<Categoria[]>([])
+
+
+async function getCategorias() {
   categorias.value = await http.get(ENDPOINT).then((response) => response.data)
 }
 
-function emitirEdicion(categoria: Categoria) {
-  emit('edit', categoria)
+
+function toEdit(id: number) {
+  router.push(`/categorias/editar/${id}`)
 }
 
-function mostrarEliminarConfirm(categoria: Categoria) {
-  categoriaDelete.value = categoria
-  mostrarConfirmDialog.value = true
-}
-
-async function eliminar() {
-  await http.delete(`${ENDPOINT}/${categoriaDelete.value?.id}`)
-  obtenerLista()
-  mostrarConfirmDialog.value = false
+async function toDelete(id: number) {
+  var r = confirm('¿Está seguro que se desea eliminar la Categoria?')
+  if (r == true) {
+    await http.delete(`${ENDPOINT}/${id}`).then(() => getCategorias())
+  }
 }
 
 onMounted(() => {
-  obtenerLista()
+  getCategorias()    
 })
-defineExpose({ obtenerLista })
 </script>
 
-<template>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Nro.</th>
-          <th>Nombre</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(categoria, index) in categorias" :key="categoria.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ categoria.nombre }}</td>
-          <td>
-            <Button
-              icon="pi pi-pencil"
-              aria-label="Editar"
-              text
-              @click="emitirEdicion(categoria)"
-            />
-            <Button
-              icon="pi pi-trash"
-              aria-label="Eliminar"
-              text
-              @click="mostrarEliminarConfirm(categoria)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-    <Dialog
-      v-model:visible="mostrarConfirmDialog"
-      header="Confirmar Eliminación"
-      :style="{ width: '25rem' }"
-    >
-      <p>¿Estás seguro de que deseas eliminar este registro?</p>
-      <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          severity="secondary"
-          @click="mostrarConfirmDialog = false"
-        />
-        <Button type="button" label="Eliminar" @click="eliminar" />
+<template>
+  <div class="container">
+   
+
+    <div class="row">
+      <h2>Categorias</h2>
+      <div class="col-12">
+        <RouterLink to="/categorias/crear"
+        ><font-awesome-icon icon="fa-solid fa-plus" title="Agregar Nueva Categoria" /></RouterLink>
       </div>
-    </Dialog>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">N°</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Acción</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr v-for="(categoria, index) in categorias.values()" :key="categoria.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ categoria.nombre }}</td>
+           
+
+            <td>
+              <button class="btn btn-link" @click="toEdit(categoria.id)">
+              <font-awesome-icon icon="fa-solid fa-edit" title="Editar" />
+              </button>
+
+
+
+              <button class="btn btn-link" @click="toDelete(categoria.id)"
+              ><font-awesome-icon icon="fa-solid fa-trash" title="Elimnar" /></button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+
+
+<style scoped>
+.table th{
+   background-color: white; /* Color plomo */
+  border: 1px solid #000000; /* Bordes negros */
+}
+.table td {
+  background-color:rgba(227, 155, 20); /* Color plomo */
+  border: 1px solid #000000; /* Bordes negros */
+}
+
+
+.table td {
+  color: #000000; /* Texto oscuro para las celdas */
+}
+.btn{
+  color :#000000;
+}
+</style>

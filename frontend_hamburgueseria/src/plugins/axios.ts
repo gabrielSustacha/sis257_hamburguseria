@@ -1,3 +1,5 @@
+
+
 import Axios, { type AxiosInstance } from "axios";
 import { useAuthStore } from "@/stores/index";
 
@@ -15,3 +17,6 @@ axios.interceptors.request.use(config => {
 });
 
 export default axios;
+
+
+//haciendo la importancion de axios ,importando la variable de entorno
